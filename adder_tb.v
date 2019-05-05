@@ -1,8 +1,8 @@
 `timescale 1ns/100ps
 `define CLK 20
-`define CKLH (`CLK / 2)
+`define CLKH (`CLK / 2)
 
-module adder_tb():
+module adder_tb();
     reg [1: 0] a, b;
     reg clk, reset;
     wire [2: 0] s;
@@ -12,7 +12,7 @@ module adder_tb():
         $display("--- adder simulation...");
         $dumpfile("adder.dump");
         $dumpvars;
-        $display("--- clk = %~d", `CLK);
+        $display("--- clk = %-d", `CLK);
         a = 1; b = 1; clk = 0; reset = 0;
         #1;
         #(`CLK) reset = 1;
