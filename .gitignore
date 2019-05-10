@@ -1,0 +1,7 @@
+/sim/*.dump
+/sim/csrc/*
+/sim/simv
+/sim/simv.daidir
+/sim/ucli.key
+/innovus.*
+/pnr/innovus.*

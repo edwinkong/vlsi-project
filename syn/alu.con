@@ -1,0 +1,50 @@
+#------------------------------------------------------------------
+#-  YANG  -  VLSI Design Lab  -  HKUEEE  -                        -
+#------------------------------------------------------------------
+# alu.con
+######################################################################
+set CLK_PORT     clk
+set CLK_PERIOD   20.0
+set CLK_SKEW     0.3
+set DRIVE_CELL   INVXL
+set DRIVE_PIN    {Y}
+set IN_LD        [expr [load_of "$DELAY/DFFHQX1/D"] * 10]
+set IN_DLY       1
+set OUT_DLY      1
+set ALLIN_BUTCLK [remove_from_collection [all_inputs] $CLK_PORT]
+######################################################################
+create_clock $CLK_PORT -period $CLK_PERIOD
+set_clock_uncertainty $CLK_SKEW $CLK_PORT
+# pre-layout
+#set_clock_latency $CLK_LTNC $CLK_PORT
+# post-layout, allow DC to calculate the actual clock tree latency
+#set_propagated_clock $CLK_PORT 
+######################################################################
+# specify time used by external logic to input after clock edge
+# (clk - input delay = time left for internal logic)
+set_input_delay $IN_DLY -max -clock clk $ALLIN_BUTCLK
+# specify time needed by external logic from output after clock edge
+# (clk - output delay = time left for internal logic)
+set_output_delay $OUT_DLY -max -clock $CLK_PORT [all_outputs]
+######################################################################
+set_driving_cell -lib_cell $DRIVE_CELL -pin $DRIVE_PIN $ALLIN_BUTCLK
+set_max_capacitance $IN_LD $ALLIN_BUTCLK
+set_load [expr $IN_LD * 3] [all_outputs]
+######################################################################
+#set_fix_hold $CLK_PORT
+######################################################################
+set_drive 0 $CLK_PORT
+set_drive 0 reset
+set_dont_touch_network $CLK_PORT
+#set_dont_touch_network reset
+######################################################################
+set_fix_multiple_port_nets -all -buffer_constants
+set verilogout_no_tri true
+set verilogout_show_unconnected_pins true
+#remove_unconnected_ports [get_cells -hier {*}]
+set bus_naming_style  {%s[%d]}
+set bus_inference_style {%s[%d]}
+set bus_inference_descending_sort true
+#------------------------------------------------------------------
+#-  YANG  -  VLSI Design Lab  -  HKUEEE  -                        -
+#------------------------------------------------------------------

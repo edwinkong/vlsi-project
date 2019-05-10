@@ -1,0 +1,1 @@
+/cad/cadence/soc.set.csh

@@ -1,0 +1,1 @@
+../syn/alu_gate.v
