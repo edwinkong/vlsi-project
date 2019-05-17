@@ -3,7 +3,6 @@
 `define CLKH (`CLK / 2)
 `include "alu_function.v"
 
-
 module alu (
     input [31: 0] rs1,
     input [31: 0] rs2,

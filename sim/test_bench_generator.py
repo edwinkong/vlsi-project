@@ -1,9 +1,9 @@
 import subprocess
 import os
 
-TESTBENCH_ROOT = './testbench'
-ENVIRONMENT = 'iverilog'
-os.makedirs(TESTBENCH_ROOT, exist_ok=True)
+TESTBENCH_ROOT = './'
+if not os.path.exists(TESTBENCH_ROOT):
+    os.mkdir(TESTBENCH_ROOT)
 
 ALU_FUNCTION_TB_TEMPLATE = '''
 `timescale 10ns/100ps
@@ -19,8 +19,6 @@ module {target_module}_tb();
     {target_module} specimen (.rs1(rs1), .rs2(rs2), .rd(rd));
     initial begin
         $display("--- {target_module} simulation...");
-        $dumpfile("{root}/{target_module}.dump");
-        $dumpvars;
         $display("--- clk = %-d", `CLK);
         rs1 = 0; rs2 = 0; clk = 0;
         #1;
@@ -41,7 +39,7 @@ SIMULATION_PRECISION = 100 # in picosecond
 CLOCK_FREQ = 20 # in precision unit
 BIT_DEPTH = 32
 
-def generate_test_bench(file, module, content):
+def run_test_bench(file, module, content):
 
     test_content = '\n        '.join([TEST_CASE_TEMPLATE.format(rs1,rs2) for rs1, rs2, _, _ in content])
 
@@ -54,32 +52,21 @@ def generate_test_bench(file, module, content):
     ).strip()
     
     test_bench_fp = '{}/{}_tb.v'.format(TESTBENCH_ROOT, module)
-    output_fp = '{}/{}_tb'.format(TESTBENCH_ROOT, module)
+    output_fp = '{}/{}_tb.out'.format(TESTBENCH_ROOT, module)
 
     with open(test_bench_fp, 'w') as f:
         f.write(test_bench)
-    return test_bench_fp, output_fp
 
-def run_iverlog_test_bench(file, module, content):
-    test_bench_fp, output_fp = generate_test_bench(file, module, content)
     subprocess.check_output(["iverilog", "-o", output_fp, test_bench_fp])
     result = subprocess.check_output(["vvp", output_fp])
     parsed = result.decode('ascii').split('\n')
-    for test, test_result in zip(content, parsed[4:-1]):
+    for test, test_result in zip(content, parsed[3:-1]):
         expected = test_result.split('|')[-1].replace('rd=', '').strip()
         rs1, rs2, rd, intent = test
         if str(rd) == expected or str(2**BIT_DEPTH + rd) == expected:
             print('PASSED | {} should {} | {}'.format(module, intent, test[0:3]))
         else:
             print('FAILED | {} should {} | RS1: {}, RS2: {}, EXPECTED: {}, ACTUAL: {}'.format(module, intent, rs1, rs2, rd, expected))
-
-
-
-def run_test_bench(file, module, content):
-    global ENVIRONMENT
-    if ENVIRONMENT == 'iverilog':
-        run_iverlog_test_bench(file, module, content)
-
 
 # add
 run_test_bench('alu_function.v', 'alu_add', [
@@ -163,3 +150,7 @@ run_test_bench('alu_function.v', 'alu_and', [
     (2**32-1, 0, 0, 'return 0 if inputs are 1 and 0 for each bit'),
     (2**32-1, 2**32-1, 2**32-1, 'return 1 if inputs are 1 and 1 for each bit')
 ])
+
+for file in os.listdir(TESTBENCH_ROOT):
+    if file.endswith('.out'):
+        os.remove(os.path.join(TESTBENCH_ROOT, file))

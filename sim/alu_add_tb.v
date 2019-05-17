@@ -1,18 +1,16 @@
 `timescale 10ns/100ps
 `define CLK 20
 `define CLKH (`CLK / 2)
-`include "../alu_function.v"
+`include "alu_function.v"
 
-module alu_sub_tb();
+module alu_add_tb();
     reg [31: 0] rs1, rs2;
     reg clk;
     wire [31: 0] rd;
 
-    alu_sub specimen (.rs1(rs1), .rs2(rs2), .rd(rd));
+    alu_add specimen (.rs1(rs1), .rs2(rs2), .rd(rd));
     initial begin
-        $display("--- alu_sub simulation...");
-        $dumpfile("./testbench/alu_sub.dump");
-        $dumpvars;
+        $display("--- alu_add simulation...");
         $display("--- clk = %-d", `CLK);
         rs1 = 0; rs2 = 0; clk = 0;
         #1;
@@ -20,8 +18,8 @@ module alu_sub_tb();
         #(`CLK) rs1 <= -1; rs2 <= -1;
         #(`CLK) rs1 <= 10; rs2 <= -10;
         #(`CLK) rs1 <= -10; rs2 <= 10;
-        #(`CLK) rs1 <= 21; rs2 <= 10;
-        #(`CLK) rs1 <= 4294967295; rs2 <= -1;
+        #(`CLK) rs1 <= 10; rs2 <= 21;
+        #(`CLK) rs1 <= 4294967295; rs2 <= 2;
         #(`CLK) $finish;
     end
 

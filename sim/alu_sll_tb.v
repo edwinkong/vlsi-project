@@ -3,22 +3,20 @@
 `define CLKH (`CLK / 2)
 `include "alu_function.v"
 
-module alu_srl_tb();
+module alu_sll_tb();
     reg [31: 0] rs1, rs2;
     reg clk;
     wire [31: 0] rd;
 
-    alu_srl specimen (.rs1(rs1), .rs2(rs2), .rd(rd));
+    alu_sll specimen (.rs1(rs1), .rs2(rs2), .rd(rd));
     initial begin
-        $display("--- alu_srl simulation...");
-        $dumpfile("./testbench/alu_srl.dump");
-        $dumpvars;
+        $display("--- alu_sll simulation...");
         $display("--- clk = %-d", `CLK);
         rs1 = 0; rs2 = 0; clk = 0;
         #1;
-        #(`CLK) rs1 <= 2; rs2 <= 1;
         #(`CLK) rs1 <= 1; rs2 <= 1;
-        #(`CLK) rs1 <= 4294967295; rs2 <= 1;
+        #(`CLK) rs1 <= 4294967295; rs2 <= 3;
+        #(`CLK) rs1 <= 4294967296; rs2 <= 1;
         #(`CLK) $finish;
     end
 

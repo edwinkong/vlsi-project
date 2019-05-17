@@ -11,8 +11,6 @@ module alu_sra_tb();
     alu_sra specimen (.rs1(rs1), .rs2(rs2), .rd(rd));
     initial begin
         $display("--- alu_sra simulation...");
-        $dumpfile("./testbench/alu_sra.dump");
-        $dumpvars;
         $display("--- clk = %-d", `CLK);
         rs1 = 0; rs2 = 0; clk = 0;
         #1;

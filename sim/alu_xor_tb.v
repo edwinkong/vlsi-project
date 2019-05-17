@@ -11,8 +11,6 @@ module alu_xor_tb();
     alu_xor specimen (.rs1(rs1), .rs2(rs2), .rd(rd));
     initial begin
         $display("--- alu_xor simulation...");
-        $dumpfile("./testbench/alu_xor.dump");
-        $dumpvars;
         $display("--- clk = %-d", `CLK);
         rs1 = 0; rs2 = 0; clk = 0;
         #1;
