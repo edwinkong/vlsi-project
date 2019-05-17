@@ -1,15 +1,12 @@
 `timescale 1ns/100ps
-`define CLK 20
-`define CLKH (`CLK / 2)
 `include "alu_function.v"
-
 
 module alu (
     input [31: 0] rs1,
     input [31: 0] rs2,
-    input [3: 0] op,
-    input reset,
+    input [3: 0] mode,
     input clk,
+    input reset,
     output reg [31: 0] rd
     );
     wire [31: 0] add_out, sub_out, sll_out, slt_out, sltu_out,
@@ -28,10 +25,10 @@ module alu (
 
     always @(posedge clk or posedge reset) begin
         if (reset) 
-	    rd = 32'b0;
-	else
+	        rd = 32'b0;
+	    else
    
-	case (op)
+	    case (mode)
             4'b0000: rd = add_out;
             4'b1000: rd = sub_out;
             4'b0001: rd = sll_out;

@@ -63,7 +63,7 @@ module alu_srl (
     );
 
     wire [5: 0] amount;
-    assign amount = rs2 & 5'b11111;
+    assign amount = rs2 & 32'b11111;
     assign rd = rs1 >> amount;
 endmodule
 
@@ -74,7 +74,7 @@ module alu_sra (
     );
 
     wire [5: 0] amount;
-    assign amount = rs2 & 5'b11111;
+    assign amount = rs2 & 32'b11111;
     assign rd = rs1 >>> amount;
 endmodule
 

@@ -3,7 +3,7 @@
 module alu_add (
     input [31: 0] rs1,
     input [31: 0] rs2,
-    output [31: 0] rd
+    output reg [31: 0] rd
     );
 
     assign rd = rs1 + rs2;

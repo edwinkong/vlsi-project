@@ -1,0 +1,161 @@
+$date
+	Fri May 17 16:13:11 2019
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	100ps
+$end
+$scope module alu_add $end
+$var wire 32 ! rs1 [31:0] $end
+$var wire 32 " rs2 [31:0] $end
+$var wire 32 # rd [31:0] $end
+$upscope $end
+$scope module alu_and $end
+$var wire 32 $ rd [31:0] $end
+$var wire 32 % rs1 [31:0] $end
+$var wire 32 & rs2 [31:0] $end
+$upscope $end
+$scope module alu_or $end
+$var wire 32 ' rd [31:0] $end
+$var wire 32 ( rs1 [31:0] $end
+$var wire 32 ) rs2 [31:0] $end
+$upscope $end
+$scope module alu_sll $end
+$var wire 32 * rs1 [31:0] $end
+$var wire 32 + rs2 [31:0] $end
+$var wire 32 , rd [31:0] $end
+$var wire 5 - amount [4:0] $end
+$upscope $end
+$scope module alu_slt_tb $end
+$var wire 32 . rd [31:0] $end
+$var reg 1 / clk $end
+$var reg 32 0 rs1 [31:0] $end
+$var reg 32 1 rs2 [31:0] $end
+$scope module specimen $end
+$var wire 32 2 rs1 [31:0] $end
+$var wire 32 3 rs2 [31:0] $end
+$var wire 32 4 rd [31:0] $end
+$upscope $end
+$upscope $end
+$scope module alu_sltu $end
+$var wire 32 5 rs1 [31:0] $end
+$var wire 32 6 rs2 [31:0] $end
+$var wire 32 7 rd [31:0] $end
+$upscope $end
+$scope module alu_sra $end
+$var wire 32 8 rs1 [31:0] $end
+$var wire 32 9 rs2 [31:0] $end
+$var wire 32 : rd [31:0] $end
+$var wire 5 ; amount [4:0] $end
+$upscope $end
+$scope module alu_srl $end
+$var wire 32 < rs1 [31:0] $end
+$var wire 32 = rs2 [31:0] $end
+$var wire 32 > rd [31:0] $end
+$var wire 5 ? amount [4:0] $end
+$upscope $end
+$scope module alu_sub $end
+$var wire 32 @ rs1 [31:0] $end
+$var wire 32 A rs2 [31:0] $end
+$var wire 32 B rd [31:0] $end
+$upscope $end
+$scope module alu_xor $end
+$var wire 32 C rd [31:0] $end
+$var wire 32 D rs1 [31:0] $end
+$var wire 32 E rs2 [31:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bz E
+bz D
+bx C
+bx B
+bz A
+bz @
+bz ?
+bx >
+bz =
+bz <
+bz ;
+bx :
+bz 9
+bz 8
+b0x 7
+bz 6
+bz 5
+b0 4
+b0 3
+b0 2
+b0 1
+b0 0
+0/
+b0 .
+bz -
+bx ,
+bz +
+bz *
+bz )
+bz (
+bx '
+bz &
+bz %
+bx $
+bx #
+bz "
+bz !
+$end
+#1000
+1/
+#2000
+0/
+#2100
+b1 1
+b1 3
+b10 0
+b10 2
+#3000
+1/
+#4000
+0/
+#4100
+b1 .
+b1 4
+b10 1
+b10 3
+b1 0
+b1 2
+#5000
+1/
+#6000
+0/
+#6100
+b0 .
+b0 4
+b1 1
+b1 3
+#7000
+1/
+#8000
+0/
+#8100
+b1 .
+b1 4
+b11111111111111111111111111111111 0
+b11111111111111111111111111111111 2
+#9000
+1/
+#10000
+0/
+#10100
+b0 .
+b0 4
+b11111111111111111111111111111110 1
+b11111111111111111111111111111110 3
+#11000
+1/
+#12000
+0/
+#12100

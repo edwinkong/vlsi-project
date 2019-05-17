@@ -11,7 +11,7 @@ module alu_add_tb();
     alu_add add (.rs1(a), .rs2(b), .rd(s));
     initial begin
         $display("--- adder simulation...");
-        $dumpfile("adder.dump");
+        $dumpfile("alu_add.dump");
         $dumpvars;
         $display("--- clk = %-d", `CLK);
         a = 0; b = 0; clk = 0;
