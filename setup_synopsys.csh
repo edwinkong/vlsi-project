@@ -1,1 +1,0 @@
-/cad/synopsys/setup.csh

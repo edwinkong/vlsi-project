@@ -3,7 +3,7 @@
 Report : design
 Design : alu
 Version: P-2019.03
-Date   : Fri May 10 12:31:48 2019
+Date   : Fri May 10 15:48:54 2019
 ****************************************
 
 Design allows ideal nets on clock nets.
@@ -90,7 +90,7 @@ Design Parameters:
 Report : clocks
 Design : alu
 Version: P-2019.03
-Date   : Fri May 10 12:31:48 2019
+Date   : Fri May 10 15:48:54 2019
 ****************************************
 
 Attributes:
@@ -110,7 +110,7 @@ clk            20.000   {0 10}              d         {clk}
 Report : cell
 Design : alu
 Version: P-2019.03
-Date   : Fri May 10 12:31:48 2019
+Date   : Fri May 10 15:48:54 2019
 ****************************************
 
 Attributes:
@@ -1487,7 +1487,7 @@ Report : constraint
         -all_violators
 Design : alu
 Version: P-2019.03
-Date   : Fri May 10 12:31:48 2019
+Date   : Fri May 10 15:48:54 2019
 ****************************************
 
 This design has no violated constraints.
@@ -1502,7 +1502,7 @@ Report : timing
         -max_paths 5
 Design : alu
 Version: P-2019.03
-Date   : Fri May 10 12:31:48 2019
+Date   : Fri May 10 15:48:54 2019
 ****************************************
 
 Operating Conditions: slow   Library: slow
@@ -2029,7 +2029,7 @@ Wire Load Model Mode: segmented
 Report : area
 Design : alu
 Version: P-2019.03
-Date   : Fri May 10 12:31:48 2019
+Date   : Fri May 10 15:48:54 2019
 ****************************************
 
 Library(s) Used:
@@ -2064,7 +2064,7 @@ Report : power
         -analysis_effort low
 Design : alu
 Version: P-2019.03
-Date   : Fri May 10 12:31:49 2019
+Date   : Fri May 10 15:48:55 2019
 ****************************************
 
 

@@ -5,3 +5,4 @@
 /sim/ucli.key
 /innovus.*
 /pnr/innovus.*
+/sim/*.log
