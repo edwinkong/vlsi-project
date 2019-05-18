@@ -24,8 +24,8 @@ module alu_sll (
     output [31: 0] rd
     );
 
-    wire [5: 0] amount;
-    assign amount = rs2 & 5'b11111;
+    wire [4: 0] amount;
+    assign amount = rs2[4: 0];
     assign rd = rs1 << amount;
 endmodule
 
@@ -35,7 +35,7 @@ module alu_slt (
     output [31: 0] rd
     );
 
-    assign rd = $signed(rs1) < $signed(rs2) ? 32'h0000_0001 : 32'h0000_0000;
+    assign rd = {31'b0, $signed(rs1) < $signed(rs2)};
 endmodule
 
 module alu_sltu (
@@ -44,7 +44,7 @@ module alu_sltu (
     output [31: 0] rd
     );
 
-    assign rd = rs1 < rs2 ? 32'h0000_0001 : 32'h0000_0000;
+    assign rd = {31'b0, rs1 < rs2};
 endmodule
 
 module alu_xor (
@@ -62,8 +62,8 @@ module alu_srl (
     output [31: 0] rd
     );
 
-    wire [5: 0] amount;
-    assign amount = rs2 & 32'b11111;
+    wire [4: 0] amount;
+    assign amount = rs2[4: 0];
     assign rd = rs1 >> amount;
 endmodule
 
@@ -73,9 +73,9 @@ module alu_sra (
     output [31: 0] rd
     );
 
-    wire [5: 0] amount;
-    assign amount = rs2 & 32'b11111;
-    assign rd = rs1 >>> amount;
+    wire [4: 0] amount;
+    assign amount = rs2[4: 0];
+    assign rd = $signed(rs1) >>> amount;
 endmodule
 
 module alu_or (

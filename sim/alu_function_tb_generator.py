@@ -39,8 +39,7 @@ SIMULATION_PRECISION = 100 # in picosecond
 CLOCK_FREQ = 20 # in precision unit
 BIT_DEPTH = 32
 
-def run_test_bench(file, module, content):
-
+def generate_test_bench(file, module, content):
     test_content = '\n        '.join([TEST_CASE_TEMPLATE.format(rs1,rs2) for rs1, rs2, _, _ in content])
 
     test_bench = ALU_FUNCTION_TB_TEMPLATE.format(
@@ -52,11 +51,14 @@ def run_test_bench(file, module, content):
     ).strip()
     
     test_bench_fp = '{}/{}_tb.v'.format(TESTBENCH_ROOT, module)
-    output_fp = '{}/{}_tb.out'.format(TESTBENCH_ROOT, module)
 
     with open(test_bench_fp, 'w') as f:
         f.write(test_bench)
+    
+    return test_bench_fp
 
+def run_test_bench(test_bench_fp):
+    output_fp = test_bench_fp.replace('.v', '.out')
     subprocess.check_output(["iverilog", "-o", output_fp, test_bench_fp])
     result = subprocess.check_output(["vvp", output_fp])
     parsed = result.decode('ascii').split('\n')
