@@ -4,6 +4,3 @@
 /sim/simv.daidir
 /sim/ucli.key
 /innovus.*
-/pnr/innovus.*
-/sim/*.log
-/syn/*.log

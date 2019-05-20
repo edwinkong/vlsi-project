@@ -4,7 +4,7 @@
 # alu.con
 ######################################################################
 set CLK_PORT     clk
-set CLK_PERIOD   20.0
+set CLK_PERIOD   30.0
 set CLK_SKEW     0.3
 set DRIVE_CELL   INVXL
 set DRIVE_PIN    {Y}

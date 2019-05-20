@@ -1,6 +1,6 @@
 #@ # 
-#@ # Running dc_shell Version P-2019.03 for linux64 -- Feb 27, 2019
-#@ # Date:   Fri May 10 15:48:23 2019
+#@ # Running dc_shell Version P-2019.03-SP1-1 for linux64 -- May 06, 2019
+#@ # Date:   Mon May 20 20:51:07 2019
 #@ # Run by: u3518636@vlsi1
 #@ 
 
@@ -6685,7 +6685,7 @@ source -echo -verbose /vhome/class/u3518636/vlsi-project/syn/alu.tcl
 #@ #set IOLIB     "SP018W_V1p4_max.db"
 #@ #set WIRELOAD  "smic18_wl30"
 #@ set OPCOND    "slow"
-#@ set MAXFANOUT 6
+#@ set MAXFANOUT 7
 #@ ######################################################################
 #@ set target_library  "$DELAY.db"
 #@ set link_library    "* $DELAY.db"
@@ -6712,7 +6712,7 @@ source -echo -verbose /vhome/class/u3518636/vlsi-project/syn/alu.tcl
 #@ # alu.con
 #@ ######################################################################
 #@ set CLK_PORT     clk
-#@ set CLK_PERIOD   20.0
+#@ set CLK_PERIOD   30.0
 #@ set CLK_SKEW     0.3
 #@ set DRIVE_CELL   INVXL
 #@ set DRIVE_PIN    {Y}

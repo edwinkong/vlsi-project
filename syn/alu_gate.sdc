@@ -1,13 +1,13 @@
 ###################################################################
 
-# Created by write_sdc on Fri May 10 15:48:53 2019
+# Created by write_sdc on Mon May 20 20:51:22 2019
 
 ###################################################################
 set sdc_version 2.1
 
 set_units -time ns -resistance kOhm -capacitance pF -voltage V -current uA
 set_operating_conditions slow -library slow
-set_max_fanout 6 [current_design]
+set_max_fanout 7 [current_design]
 set_driving_cell -lib_cell INVXL -pin Y [get_ports {rs1[31]}]
 set_driving_cell -lib_cell INVXL -pin Y [get_ports {rs1[30]}]
 set_driving_cell -lib_cell INVXL -pin Y [get_ports {rs1[29]}]
@@ -72,10 +72,10 @@ set_driving_cell -lib_cell INVXL -pin Y [get_ports {rs2[3]}]
 set_driving_cell -lib_cell INVXL -pin Y [get_ports {rs2[2]}]
 set_driving_cell -lib_cell INVXL -pin Y [get_ports {rs2[1]}]
 set_driving_cell -lib_cell INVXL -pin Y [get_ports {rs2[0]}]
-set_driving_cell -lib_cell INVXL -pin Y [get_ports {op[3]}]
-set_driving_cell -lib_cell INVXL -pin Y [get_ports {op[2]}]
-set_driving_cell -lib_cell INVXL -pin Y [get_ports {op[1]}]
-set_driving_cell -lib_cell INVXL -pin Y [get_ports {op[0]}]
+set_driving_cell -lib_cell INVXL -pin Y [get_ports {mode[3]}]
+set_driving_cell -lib_cell INVXL -pin Y [get_ports {mode[2]}]
+set_driving_cell -lib_cell INVXL -pin Y [get_ports {mode[1]}]
+set_driving_cell -lib_cell INVXL -pin Y [get_ports {mode[0]}]
 set_driving_cell -min -lib_cell INVXL -pin Y [get_ports reset]
 set_load -pin_load 0.03738 [get_ports {rd[31]}]
 set_load -pin_load 0.03738 [get_ports {rd[30]}]
@@ -173,12 +173,12 @@ set_max_capacitance 0.01246 [get_ports {rs2[3]}]
 set_max_capacitance 0.01246 [get_ports {rs2[2]}]
 set_max_capacitance 0.01246 [get_ports {rs2[1]}]
 set_max_capacitance 0.01246 [get_ports {rs2[0]}]
-set_max_capacitance 0.01246 [get_ports {op[3]}]
-set_max_capacitance 0.01246 [get_ports {op[2]}]
-set_max_capacitance 0.01246 [get_ports {op[1]}]
-set_max_capacitance 0.01246 [get_ports {op[0]}]
+set_max_capacitance 0.01246 [get_ports {mode[3]}]
+set_max_capacitance 0.01246 [get_ports {mode[2]}]
+set_max_capacitance 0.01246 [get_ports {mode[1]}]
+set_max_capacitance 0.01246 [get_ports {mode[0]}]
 set_max_capacitance 0.01246 [get_ports reset]
-create_clock [get_ports clk]  -period 20  -waveform {0 10}
+create_clock [get_ports clk]  -period 30  -waveform {0 15}
 set_clock_uncertainty 0.3  [get_clocks clk]
 set_input_delay -clock clk  -max 1  [get_ports {rs1[31]}]
 set_input_delay -clock clk  -max 1  [get_ports {rs1[30]}]
@@ -244,10 +244,10 @@ set_input_delay -clock clk  -max 1  [get_ports {rs2[3]}]
 set_input_delay -clock clk  -max 1  [get_ports {rs2[2]}]
 set_input_delay -clock clk  -max 1  [get_ports {rs2[1]}]
 set_input_delay -clock clk  -max 1  [get_ports {rs2[0]}]
-set_input_delay -clock clk  -max 1  [get_ports {op[3]}]
-set_input_delay -clock clk  -max 1  [get_ports {op[2]}]
-set_input_delay -clock clk  -max 1  [get_ports {op[1]}]
-set_input_delay -clock clk  -max 1  [get_ports {op[0]}]
+set_input_delay -clock clk  -max 1  [get_ports {mode[3]}]
+set_input_delay -clock clk  -max 1  [get_ports {mode[2]}]
+set_input_delay -clock clk  -max 1  [get_ports {mode[1]}]
+set_input_delay -clock clk  -max 1  [get_ports {mode[0]}]
 set_input_delay -clock clk  -max 1  [get_ports reset]
 set_output_delay -clock clk  -max 1  [get_ports {rd[31]}]
 set_output_delay -clock clk  -max 1  [get_ports {rd[30]}]
