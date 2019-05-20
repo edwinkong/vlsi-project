@@ -40,7 +40,10 @@ CLOCK_FREQ = 20 # in precision unit
 BIT_DEPTH = 32
 
 def generate_test_bench(file, module, content):
-    test_content = '\n        '.join([TEST_CASE_TEMPLATE.format(rs1,rs2) for rs1, rs2, _, _ in content])
+    test_content = '\n        '.join(
+        [TEST_CASE_TEMPLATE.format(rs1,rs2) 
+        for rs1, rs2, _, _ in content
+        ])
 
     test_bench = ALU_FUNCTION_TB_TEMPLATE.format(
         root=TESTBENCH_ROOT,
@@ -57,18 +60,23 @@ def generate_test_bench(file, module, content):
     
     return test_bench_fp
 
-def run_test_bench(test_bench_fp):
+def exec_test_bench(test_bench_fp, module, content):
     output_fp = test_bench_fp.replace('.v', '.out')
     subprocess.check_output(["iverilog", "-o", output_fp, test_bench_fp])
     result = subprocess.check_output(["vvp", output_fp])
     parsed = result.decode('ascii').split('\n')
-    for test, test_result in zip(content, parsed[3:-1]):
+    for test, test_result in zip(content, parsed[3: -1]):
         expected = test_result.split('|')[-1].replace('rd=', '').strip()
         rs1, rs2, rd, intent = test
         if str(rd) == expected or str(2**BIT_DEPTH + rd) == expected:
             print('PASSED | {} should {} | {}'.format(module, intent, test[0:3]))
         else:
-            print('FAILED | {} should {} | RS1: {}, RS2: {}, EXPECTED: {}, ACTUAL: {}'.format(module, intent, rs1, rs2, rd, expected))
+            print('FAILED | {} should {} | RS1: {}, RS2: {}, EXPECTED: {}, ACTUAL: {}'.format(
+                module, intent, rs1, rs2, rd, expected))
+
+def run_test_bench(file, module, content):
+    fp = generate_test_bench(file, module, content)
+    exec_test_bench(fp, module, content)
 
 # add
 run_test_bench('alu_function.v', 'alu_add', [
@@ -127,14 +135,14 @@ run_test_bench('alu_function.v', 'alu_xor', [
 run_test_bench('alu_function.v', 'alu_srl', [
     (2, 1, 1, 'shift bit rightward'),
     (1, 1, 0, 'fill 0 if all bits are shifted'),
-    (2**32-1, 1, 2**31-1, 'does not preserve sign bit')
+    (2**31, 1, 2**30, 'does not preserve sign bit')
 ])
 
 # right arithmetic shift
 run_test_bench('alu_function.v', 'alu_sra', [
     (2, 1, 1, 'shift bit rightward'),
-    (-2, 1, -1, 'fill 0 if all bits are shifted'),
-    (2**32-1, 1, 2**32-1, 'preserve sign bit')
+    (1, 1, 0, 'fill 0 if all bits are shifted'),
+    (2**31, 1, 2**31 + 2**30, 'preserve sign bit')
 ])
 
 # or

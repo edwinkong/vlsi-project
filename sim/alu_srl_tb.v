@@ -16,7 +16,7 @@ module alu_srl_tb();
         #1;
         #(`CLK) rs1 <= 2; rs2 <= 1;
         #(`CLK) rs1 <= 1; rs2 <= 1;
-        #(`CLK) rs1 <= 4294967295; rs2 <= 1;
+        #(`CLK) rs1 <= 2147483648; rs2 <= 1;
         #(`CLK) $finish;
     end
 
