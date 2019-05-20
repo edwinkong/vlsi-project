@@ -1,5 +1,7 @@
 import subprocess
 import os
+from functools import reduce
+import random
 
 TESTBENCH_ROOT = './'
 if not os.path.exists(TESTBENCH_ROOT):
@@ -78,31 +80,52 @@ def run_test_bench(file, module, content):
     fp = generate_test_bench(file, module, content)
     exec_test_bench(fp, module, content)
 
+def fb(bits):
+    values = [2 ** bit for bit in bits]
+    return reduce(lambda a, b: a + b, values)
+
+ALL_ONE = fb(range(32))
+SEED = 42
+
+def rn32(count):
+    return (random.randint(-2 ** 31, 2 ** 31 - 1) for i in range(count))
+
 # add
+random_cases = []
+for i in range(10):
+    a, b = rn32(2)
+    random_cases.append((a, b, a + b, 'perform addition case {}'.format(i)), )
+
 run_test_bench('alu_function.v', 'alu_add', [
     (1, 1, 2, 'perform pos-pos addition'),
     (-1, -1, -2, 'perform neg-neg addition'),
     (10, -10, 0, 'perform pos-neg addition'),
     (-10, 10, 0, 'perform neg-pos addition'),
-    (10, 21, 31, 'perform multi-bit addition'),
-    (2**32-1, 2, 1, 'overflow correctly'),
-])
+    (ALL_ONE, 2, 1, 'overflow correctly'),
+] + random_cases)
 
 # subtract
+random_cases = []
+for i in range(10):
+    a, b = rn32(2)
+    random_cases.append((a, b, a - b, 'perform addition case {}'.format(i)), )
+
 run_test_bench('alu_function.v', 'alu_sub', [
     (1, 1, 0, 'perform pos-pos subtraction'),
     (-1, -1, 0, 'perform neg-neg subtraction'),
     (10, -10, 20, 'perform pos-neg subtraction'),
     (-10, 10, -20, 'perform neg-pos subtraction'),
     (21, 10, 11, 'perform multi-bit subtraction'),
-    (2**32-1, -1, 0, 'overflow correctly')
+    (ALL_ONE, -1, 0, 'overflow correctly')
 ])
 
 # left logical shift
 run_test_bench('alu_function.v', 'alu_sll', [
-    (1, 1, 2, 'shift bit leftward'),
-    (2**32-1, 3, 2**32-8, 'fill rightmost bits 0'),
-    (2**32, 1, 0, 'return 0 if all bits are overflowed rightward'),
+    (fb(range(0, 32, 2)), 1, fb(range(1, 32, 2)), 'every bit are mutable'),
+    (fb(range(0, 32, 2)), 10, fb(range(10, 32, 2)), 'shift rs1 to specified bits leftward'),
+    (fb(range(0, 32, 2)), fb([6, 3]), fb(range(8, 32, 2)), 'only counts the lower 5 bits of rs2'),
+    (ALL_ONE, 3, fb(range(3, 32)), 'fill rightmost bits 0'),
+    (fb([32]), 1, 0, 'return 0 if all bits are shifted out of range'),
 ])
 
 # signed less than comparison
@@ -125,40 +148,44 @@ run_test_bench('alu_function.v', 'alu_sltu', [
 
 # xor
 run_test_bench('alu_function.v', 'alu_xor', [
-    (0, 0, 0, 'return 0 if inputs are 0 and 0 for each bit'),
-    (0, 2**32-1, 2**32-1, 'return 1 if inputs are 0 and 1 for each bit'),
-    (2**32-1, 0, 2**32-1, 'return 1 if inputs are 1 and 0 for each bit'),
-    (2**32-1, 2**32-1, 0, 'return 0 if inputs are 1 and 1 for each bit')
+    (0, 0, 0, 'return 0 if inputs are 0 and 0'),
+    (0, ALL_ONE, ALL_ONE, 'return 1 if inputs are 0 and 1'),
+    (ALL_ONE, 0, ALL_ONE, 'return 1 if inputs are 1 and 0'),
+    (ALL_ONE, ALL_ONE, 0, 'return 0 if inputs are 1 and 1')
 ])
 
 # unsigned shift right
 run_test_bench('alu_function.v', 'alu_srl', [
-    (2, 1, 1, 'shift bit rightward'),
-    (1, 1, 0, 'fill 0 if all bits are shifted'),
-    (2**31, 1, 2**30, 'does not preserve sign bit')
+    (fb(range(0, 32, 2)), 1, fb(range(1, 31, 2)), 'every bit are mutable'),
+    (fb(range(0, 32, 2)), 10, fb(range(0, 22, 2)), 'shift rs1 to specified bits rightward'),
+    (fb(range(0, 32, 2)), fb([6, 3]), fb(range(0, 24, 2)), 'only counts the lower 5 bits of rs2'),
+    (ALL_ONE, 3, fb(range(0, 29)), 'fill rightmost bits 0'),
+    (1, 1, 0, 'return 0 if all bits are shifted out of range'),
 ])
 
 # right arithmetic shift
 run_test_bench('alu_function.v', 'alu_sra', [
-    (2, 1, 1, 'shift bit rightward'),
-    (1, 1, 0, 'fill 0 if all bits are shifted'),
-    (2**31, 1, 2**31 + 2**30, 'preserve sign bit')
+    (fb(range(0, 32, 2)), 1, fb(range(1, 31, 2)), 'every bit are mutable'),
+    (fb(range(0, 32, 2)), 10, fb(range(0, 22, 2)), 'shift rs1 to specified bits rightward'),
+    (fb(range(0, 32, 2)), fb([6, 3]), fb(range(0, 24, 2)), 'only counts the lower 5 bits of rs2'),
+    (fb([31]), 3, fb([28, 29, 30, 31]), 'preverse sign bit'),
+    (1, 1, 0, 'return 0 if all bits are shifted out of range'),
 ])
 
 # or
 run_test_bench('alu_function.v', 'alu_or', [
-    (0, 0, 0, 'return 0 if inputs are 0 and 0 for each bit'),
-    (0, 2**32-1, 2**32-1, 'return 1 if inputs are 0 and 1 for each bit'),
-    (2**32-1, 0, 2**32-1, 'return 1 if inputs are 1 and 0 for each bit'),
-    (2**32-1, 2**32-1, 2**32-1, 'return 1 if inputs are 1 and 1 for each bit')
+    (0, 0, 0, 'return 0 if inputs are 0 and 0'),
+    (0, ALL_ONE, ALL_ONE, 'return 1 if inputs are 0 and 1'),
+    (ALL_ONE, 0, ALL_ONE, 'return 1 if inputs are 1 and 0'),
+    (ALL_ONE, ALL_ONE, ALL_ONE, 'return 1 if inputs are 1 and 1')
 ])
 
 # and
 run_test_bench('alu_function.v', 'alu_and', [
-    (0, 0, 0, 'return 0 if inputs are 0 and 0 for each bit'),
-    (0, 2**32-1, 0, 'return 0 if inputs are 0 and 1 for each bit'),
-    (2**32-1, 0, 0, 'return 0 if inputs are 1 and 0 for each bit'),
-    (2**32-1, 2**32-1, 2**32-1, 'return 1 if inputs are 1 and 1 for each bit')
+    (0, 0, 0, 'return 0 if inputs are 0 and 0'),
+    (0, ALL_ONE, 0, 'return 0 if inputs are 0 and 1'),
+    (ALL_ONE, 0, 0, 'return 0 if inputs are 1 and 0'),
+    (ALL_ONE, ALL_ONE, ALL_ONE, 'return 1 if inputs are 1 and 1')
 ])
 
 for file in os.listdir(TESTBENCH_ROOT):
