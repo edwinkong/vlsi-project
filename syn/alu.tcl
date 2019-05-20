@@ -15,7 +15,7 @@ set DELAY     "slow"
 #set IOLIB     "SP018W_V1p4_max.db"
 #set WIRELOAD  "smic18_wl30"
 set OPCOND    "slow"
-set MAXFANOUT 7
+set MAXFANOUT 6
 ######################################################################
 set target_library  "$DELAY.db"
 set link_library    "* $DELAY.db"
