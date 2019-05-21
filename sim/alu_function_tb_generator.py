@@ -115,9 +115,8 @@ run_test_bench('alu_function.v', 'alu_sub', [
     (-1, -1, 0, 'perform neg-neg subtraction'),
     (10, -10, 20, 'perform pos-neg subtraction'),
     (-10, 10, -20, 'perform neg-pos subtraction'),
-    (21, 10, 11, 'perform multi-bit subtraction'),
     (ALL_ONE, -1, 0, 'overflow correctly')
-])
+] + random_cases)
 
 # left logical shift
 run_test_bench('alu_function.v', 'alu_sll', [

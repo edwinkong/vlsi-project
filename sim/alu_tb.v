@@ -15,16 +15,16 @@ module alu_sub_tb();
         $display("--- clk = %-d", `CLK);
         rs1 = 0; rs2 = 0; clk = 0; reset = 0;
         #1;
-        #(`CLK) mode = `ALU_OP_ADD; rs1 = 18; rs2 = 12;
-        #(`CLK) mode = `ALU_OP_SUB; rs1 = 18; rs2 = 12;
-        #(`CLK) mode = `ALU_OP_SLL; rs1 = 2; rs2 = 1;
-        #(`CLK) mode = `ALU_OP_SLT; rs1 = -1; rs2 = 1;
+        #(`CLK) mode = `ALU_OP_ADD;  rs1 = 18; rs2 = 12;
+        #(`CLK) mode = `ALU_OP_SUB;  rs1 = 18; rs2 = 12;
+        #(`CLK) mode = `ALU_OP_SLL;  rs1 = 18; rs2 = 1;
+        #(`CLK) mode = `ALU_OP_SLT;  rs1 = -1; rs2 = 1;
         #(`CLK) mode = `ALU_OP_SLTU; rs1 = -1; rs2 = 1;
-        #(`CLK) mode = `ALU_OP_XOR; rs1 = 24; rs2 = 20;
-        #(`CLK) mode = `ALU_OP_SRL; rs1 = 2; rs2 = 1;
-        #(`CLK) mode = `ALU_OP_SRA; rs1 = -2; rs2 = 1;
-        #(`CLK) mode = `ALU_OP_OR; rs1 = 24; rs2 = 20;
-        #(`CLK) mode = `ALU_OP_AND; rs1 = 24; rs2 = 20;        
+        #(`CLK) mode = `ALU_OP_XOR;  rs1 = 24; rs2 = 20;
+        #(`CLK) mode = `ALU_OP_SRL;  rs1 = -4; rs2 = 1;
+        #(`CLK) mode = `ALU_OP_SRA;  rs1 = -4; rs2 = 1;
+        #(`CLK) mode = `ALU_OP_OR;   rs1 = 24; rs2 = 20;
+        #(`CLK) mode = `ALU_OP_AND;  rs1 = 24; rs2 = 20;        
         #(`CLK) $finish;
     end
 
